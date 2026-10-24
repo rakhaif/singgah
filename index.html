@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Singgah – Cari Kos Terdekat</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%2317A862'/%3E%3Cpath d='M10 19.5 20 11l10 8.5V30a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1z' fill='%23fff'/%3E%3Ccircle cx='20' cy='21.5' r='3.4' fill='%2317A862'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--g:#17A862;--gd:#0E3B2E;--gs:#EAF7F0;--am:#FFB020;--bg:#F6F8F7;--tx:#1B2B26;--mu:#6B7C75;--ln:#E1E8E4;--r:16px}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:3px solid var(--am);outline-offset:2px}
+header{background:#fff;border-bottom:1px solid var(--ln);position:sticky;top:0;z-index:5}
+.nav{max-width:1120px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:12px;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;color:var(--gd)}
+.logo svg{width:38px;height:38px}
+.nav small{color:var(--mu);font-size:13px}
+.hero{background:linear-gradient(135deg,var(--gd),#127a49);color:#fff;padding:44px 20px 84px}
+.hero div{max-width:1120px;margin:auto}
+.hero h1{font-size:clamp(28px,5vw,46px);font-weight:800;line-height:1.15;max-width:640px}
+.hero p{margin-top:12px;opacity:.85;max-width:520px}
+.search{max-width:1120px;margin:-48px auto 0;padding:0 20px;position:relative}
+.box{background:#fff;border-radius:20px;padding:16px;box-shadow:0 14px 40px rgba(14,59,46,.16);display:grid;gap:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.inp{flex:1;min-width:200px;display:flex;align-items:center;gap:8px;border:1.5px solid var(--ln);border-radius:12px;padding:0 14px;background:#fff}
+.inp:focus-within{border-color:var(--g)}
+.inp input{border:0;outline:0;flex:1;padding:13px 0;font:inherit;min-width:0}
+.btn{background:var(--g);color:#fff;font-weight:600;padding:13px 18px;border-radius:12px}
+.btn:hover{background:#0f9453}
+.btn.alt{background:var(--gs);color:var(--gd)}
+.chip{padding:8px 15px;border-radius:99px;border:1.5px solid var(--ln);font-size:14px;font-weight:600;background:#fff}
+.chip[aria-pressed=true]{background:var(--g);border-color:var(--g);color:#fff}
+.f2{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--mu)}
+.f2 select,.f2 input[type=range]{accent-color:var(--g);font:inherit;padding:6px;border-radius:8px;border:1.5px solid var(--ln)}
+main{max-width:1120px;margin:auto;padding:26px 20px 60px}
+.top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.top h2{font-size:22px}
+.top span{color:var(--mu);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.card{background:#fff;border-radius:var(--r);overflow:hidden;border:1px solid var(--ln);text-align:left;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(14,59,46,.12)}
+.pic{height:150px;position:relative;display:grid;place-items:center;color:rgba(255,255,255,.9)}
+.pic svg{width:64px;height:64px}
+.tag{position:absolute;left:12px;top:12px;background:#fff;color:var(--gd);font-size:12px;font-weight:800;padding:4px 10px;border-radius:99px}
+.tag.putri{color:#C2185B}.tag.putra{color:#1565C0}
+.fav{position:absolute;right:10px;top:10px;width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:17px}
+.sisa{position:absolute;left:12px;bottom:12px;background:var(--am);color:#4A3200;font-size:12px;font-weight:800;padding:3px 10px;border-radius:8px}
+.cb{padding:14px 16px 16px;display:grid;gap:6px;flex:1}
+.cb h3{font-size:16px;line-height:1.3}
+.mu{color:var(--mu);font-size:13px}
+.fc{display:flex;gap:6px;flex-wrap:wrap}
+.fc i{font-style:normal;font-size:12px;background:var(--gs);color:var(--gd);padding:3px 8px;border-radius:6px}
+.pr{margin-top:auto;padding-top:8px;font-size:13px;color:var(--mu)}
+.pr b{font-size:18px;color:var(--tx)}
+.empty{grid-column:1/-1;text-align:center;padding:50px 10px;color:var(--mu)}
+dialog{border:0;border-radius:22px;padding:0;width:min(560px,94vw);max-height:90vh;overflow:auto}
+dialog::backdrop{background:rgba(14,59,46,.55)}
+dialog .pic{height:190px}
+.dm{padding:20px 22px 24px;display:grid;gap:12px}
+.dm h3{font-size:22px}
+.x{position:absolute;right:12px;top:12px;width:36px;height:36px;border-radius:50%;background:#fff;font-size:20px;z-index:2}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+.acts a{flex:1;text-align:center;text-decoration:none}
+#akun{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600}
+#akun a{text-decoration:none}
+.av{width:34px;height:34px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font-weight:800}
+.out{color:var(--mu);font-size:13px;text-decoration:underline}
+@media(max-width:640px){.hl,.un{display:none}}
+footer{text-align:center;color:var(--mu);font-size:13px;padding:0 20px 40px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="logo"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#17A862"/><path d="M10 19.5 20 11l10 8.5V30a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1z" fill="#fff"/><circle cx="20" cy="21.5" r="3.4" fill="#17A862"/><circle cx="20" cy="21.5" r="1.3" fill="#fff"/></svg>Singgah</div>
+  <div class="row" style="gap:14px;flex-wrap:nowrap">
+    <small id="lokLabel" class="hl">Lokasi: Surabaya (default)</small>
+    <div id="akun"></div>
+  </div>
+</div></header>
+
+<section class="hero"><div>
+  <h1>Temukan kos terdekat dari tempat tinggalmu</h1>
+  <p>Bandingkan harga, fasilitas, dan jarak dalam satu layar. Hubungi pemilik langsung lewat WhatsApp.</p>
+</div></section>
+
+<section class="search"><div class="box">
+  <div class="row">
+    <label class="inp"><span aria-hidden="true">🔎</span><input id="q" type="search" placeholder="Cari nama kos atau area, mis. Rungkut" aria-label="Cari kos"></label>
+    <button class="btn" id="gps">📍 Pakai lokasi saya</button>
+  </div>
+  <div class="row" id="tipe">
+    <button class="chip" data-t="all" aria-pressed="true">Semua</button>
+    <button class="chip" data-t="putra" aria-pressed="false">Putra</button>
+    <button class="chip" data-t="putri" aria-pressed="false">Putri</button>
+    <button class="chip" data-t="campur" aria-pressed="false">Campur</button>
+    <span style="width:1px;height:24px;background:var(--ln)"></span>
+    <button class="chip" data-f="AC" aria-pressed="false">AC</button>
+    <button class="chip" data-f="WiFi" aria-pressed="false">WiFi</button>
+    <button class="chip" data-f="KM Dalam" aria-pressed="false">KM Dalam</button>
+    <button class="chip" data-f="Parkir" aria-pressed="false">Parkir</button>
+  </div>
+  <div class="f2">
+    <label>Harga maks: <b id="maxL" style="color:var(--tx)"></b>
+      <input id="max" type="range" min="500000" max="3000000" step="100000" value="3000000"></label>
+    <label>Urutkan: <select id="sort"><option value="jarak">Terdekat</option><option value="murah">Termurah</option><option value="rating">Rating tertinggi</option></select></label>
+    <label><input type="checkbox" id="favOnly" style="accent-color:var(--g)"> Favorit saja</label>
+  </div>
+</div></section>
+
+<main>
+  <div class="top"><h2>Kos di sekitarmu</h2><span id="count"></span></div>
+  <div class="grid" id="grid"></div>
+</main>
+<footer>Singgah – data kos di atas adalah contoh. Ganti isi array KOS di bagian script dengan data asli.</footer>
+
+<dialog id="dlg"></dialog>
+
+<script>
+const KOS=[
+{id:1,n:"Kos Melati Putri",t:"putri",a:"Gunung Anyar",p:1100000,la:-7.3342,ln:112.7873,f:["AC","WiFi","KM Dalam","Parkir"],s:2,w:"6281200000001",r:4.8,d:"Kamar 3x4 dengan kasur, lemari, dan meja belajar. Lingkungan tenang, jam malam pukul 22.00."},
+{id:2,n:"Kos Cemara Residence",t:"campur",a:"Rungkut",p:1450000,la:-7.3253,ln:112.7776,f:["AC","WiFi","KM Dalam","Dapur","Parkir"],s:4,w:"6281200000002",r:4.6,d:"Kos eksklusif dengan dapur bersama dan area jemur. Dekat minimarket dan halte."},
+{id:3,n:"Kos Pak Harjo",t:"putra",a:"Gunung Anyar",p:650000,la:-7.3368,ln:112.7921,f:["WiFi","Parkir"],s:1,w:"6281200000003",r:4.2,d:"Kos sederhana dan bersih, kamar mandi luar. Cocok untuk mahasiswa dengan budget hemat."},
+{id:4,n:"Griya Kenanga",t:"putri",a:"Sukolilo",p:1250000,la:-7.2915,ln:112.7938,f:["AC","WiFi","KM Dalam"],s:3,w:"6281200000004",r:4.7,d:"Dekat kampus dan pusat kuliner. Ada CCTV dan penjaga 24 jam."},
+{id:5,n:"Kos Anggrek Gubeng",t:"campur",a:"Gubeng",p:1800000,la:-7.2756,ln:112.7508,f:["AC","WiFi","KM Dalam","Dapur"],s:2,w:"6281200000005",r:4.9,d:"Full furnished, termasuk listrik dan air. Lima menit ke stasiun Gubeng."},
+{id:6,n:"Kos Mawar Keputih",t:"putri",a:"Keputih",p:900000,la:-7.2958,ln:112.8012,f:["WiFi","KM Dalam","Parkir"],s:5,w:"6281200000006",r:4.4,d:"Kamar luas dengan jendela besar. Akses mudah ke jalan raya dan warung makan."},
+{id:7,n:"Kos Elang Wonokromo",t:"putra",a:"Wonokromo",p:1000000,la:-7.3036,ln:112.7367,f:["AC","WiFi","Parkir"],s:2,w:"6281200000007",r:4.3,d:"Dekat terminal Joyoboyo dan transportasi umum. Parkir motor luas."},
+{id:8,n:"Kos Tulip Premium",t:"putri",a:"Darmo",p:2400000,la:-7.2894,ln:112.7386,f:["AC","WiFi","KM Dalam","Dapur","Parkir"],s:1,w:"6281200000008",r:4.9,d:"Kos premium dengan water heater, laundry, dan ruang santai bersama."},
+{id:9,n:"Kos Pelangi Rungkut",t:"campur",a:"Rungkut",p:850000,la:-7.3181,ln:112.7745,f:["WiFi","KM Dalam"],s:6,w:"6281200000009",r:4.1,d:"Harga terjangkau, dekat kawasan industri SIER dan pasar."},
+{id:10,n:"Kos Bima Sutera",t:"putra",a:"Gunung Anyar",p:1350000,la:-7.3309,ln:112.7852,f:["AC","WiFi","KM Dalam","Parkir"],s:3,w:"6281200000010",r:4.5,d:"Bangunan baru, kamar mandi dalam, dan area nongkrong di rooftop."}
+];
+const $=s=>document.querySelector(s);
+const S={q:"",t:"all",max:3000000,fac:new Set(),sort:"jarak",me:{la:-7.2575,ln:112.7521},favOnly:false,fav:new Set()};
+try{JSON.parse(localStorage.getItem("singgah-fav")||"[]").forEach(i=>S.fav.add(i))}catch(e){}
+const rp=n=>"Rp"+n.toLocaleString("id-ID");
+const dist=(a,b,c,d)=>{const R=6371,x=Math.PI/180,dl=(c-a)*x,dn=(d-b)*x,h=Math.sin(dl/2)**2+Math.cos(a*x)*Math.cos(c*x)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+const km=k=>k<1?Math.round(k*1000)+" m":k.toFixed(1)+" km";
+const house='<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 20 20 8l14 12v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z" fill="currentColor"/><circle cx="20" cy="24" r="4.5" fill="rgba(0,0,0,.18)"/></svg>';
+const bg=id=>{const h=[150,165,175,140,190,155,170,200,145,160][id-1];return`background:linear-gradient(135deg,hsl(${h} 55% 32%),hsl(${h+25} 60% 45%))`};
+const pic=k=>`<div class="pic" style="${bg(k.id)}">${house}<span class="tag ${k.t}">${k.t[0].toUpperCase()+k.t.slice(1)}</span>${k.s<=2?`<span class="sisa">Sisa ${k.s} kamar</span>`:""}</div>`;
+
+function saveFav(){try{localStorage.setItem("singgah-fav",JSON.stringify([...S.fav]))}catch(e){}}
+function list(){
+  const q=S.q.toLowerCase();
+  return KOS.map(k=>({...k,j:dist(S.me.la,S.me.ln,k.la,k.ln)}))
+   .filter(k=>(S.t==="all"||k.t===S.t)&&k.p<=S.max&&[...S.fac].every(f=>k.f.includes(f))&&(!q||(k.n+" "+k.a).toLowerCase().includes(q))&&(!S.favOnly||S.fav.has(k.id)))
+   .sort((a,b)=>S.sort==="jarak"?a.j-b.j:S.sort==="murah"?a.p-b.p:b.r-a.r);
+}
+function render(){
+  const L=list();
+  $("#maxL").textContent=rp(S.max);
+  $("#count").textContent=L.length+" kos ditemukan";
+  $("#grid").innerHTML=L.length?L.map(k=>`<button class="card" data-id="${k.id}" aria-label="Lihat ${k.n}">
+    <div style="position:relative">${pic(k)}<span class="fav" data-fav="${k.id}" role="button" aria-label="Simpan favorit">${S.fav.has(k.id)?"❤️":"🤍"}</span></div>
+    <div class="cb"><span class="mu">📍 ${km(k.j)} · ${k.a} · ⭐ ${k.r}</span><h3>${k.n}</h3>
+    <div class="fc">${k.f.slice(0,4).map(f=>`<i>${f}</i>`).join("")}</div>
+    <div class="pr"><b>${rp(k.p)}</b> / bulan</div></div></button>`).join("")
+   :'<div class="empty"><b>Belum ada kos yang cocok</b><br>Coba naikkan batas harga atau kurangi filter fasilitas.</div>';
+}
+function detail(id){
+  const k=KOS.find(x=>x.id===id),j=dist(S.me.la,S.me.ln,k.la,k.ln);
+  $("#dlg").innerHTML=`<div style="position:relative"><button class="x" onclick="dlg.close()" aria-label="Tutup">×</button>${pic(k)}</div>
+  <div class="dm"><div><h3>${k.n}</h3><span class="mu">${k.a}, Surabaya · ${km(j)} dari lokasimu · ⭐ ${k.r}</span></div>
+  <div class="fc">${k.f.map(f=>`<i>${f}</i>`).join("")}</div><p>${k.d}</p>
+  <div class="pr" style="padding:0"><b>${rp(k.p)}</b> / bulan · ${k.s} kamar tersisa</div>
+  <div class="acts"><a class="btn" target="_blank" rel="noopener" href="https://wa.me/${k.w}?text=${encodeURIComponent("Halo, saya tertarik dengan "+k.n+". Apakah masih ada kamar kosong?")}">Chat pemilik</a>
+  <a class="btn alt" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${k.la},${k.ln}">Lihat rute</a></div></div>`;
+  $("#dlg").showModal();
+}
+const dlg=$("#dlg");
+$("#grid").addEventListener("click",e=>{
+  const f=e.target.closest("[data-fav]");
+  if(f){e.stopPropagation();const i=+f.dataset.fav;S.fav.has(i)?S.fav.delete(i):S.fav.add(i);saveFav();render();return}
+  const c=e.target.closest(".card");if(c)detail(+c.dataset.id);
+});
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+$("#q").oninput=e=>{S.q=e.target.value;render()};
+$("#max").oninput=e=>{S.max=+e.target.value;render()};
+$("#sort").onchange=e=>{S.sort=e.target.value;render()};
+$("#favOnly").onchange=e=>{S.favOnly=e.target.checked;render()};
+$("#tipe").addEventListener("click",e=>{
+  const b=e.target.closest(".chip");if(!b)return;
+  if(b.dataset.t){S.t=b.dataset.t;document.querySelectorAll("[data-t]").forEach(x=>x.setAttribute("aria-pressed",x===b))}
+  else{const f=b.dataset.f;S.fac.has(f)?S.fac.delete(f):S.fac.add(f);b.setAttribute("aria-pressed",S.fac.has(f))}
+  render();
+});
+$("#gps").onclick=()=>{
+  if(!navigator.geolocation){alert("Browser kamu tidak mendukung lokasi.");return}
+  $("#gps").textContent="Mencari lokasi…";
+  navigator.geolocation.getCurrentPosition(p=>{
+    S.me={la:p.coords.latitude,ln:p.coords.longitude};S.sort="jarak";$("#sort").value="jarak";
+    $("#lokLabel").textContent="Lokasi: posisi kamu saat ini";$("#gps").textContent="📍 Lokasi aktif";render();
+  },()=>{$("#gps").textContent="📍 Pakai lokasi saya";alert("Izin lokasi ditolak. Aktifkan izin lokasi di browser lalu coba lagi.")});
+};
+function akun(){
+  let u=null;try{u=JSON.parse(localStorage.getItem("singgah-user"))}catch(e){}
+  $("#akun").innerHTML=u
+   ?`<span class="av" aria-hidden="true">${u.nama[0].toUpperCase()}</span><span class="un">${u.nama.split(" ")[0]}</span><button class="out" id="keluar">Keluar</button>`
+   :'<a class="btn" href="login.html">Masuk</a>';
+  const k=$("#keluar");
+  if(k)k.onclick=()=>{try{localStorage.removeItem("singgah-user")}catch(e){}akun()};
+}
+akun();
+render();
+</script>
+</body>
+</html>

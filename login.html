@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Masuk – Singgah</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%2317A862'/%3E%3Cpath d='M10 19.5 20 11l10 8.5V30a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1z' fill='%23fff'/%3E%3Ccircle cx='20' cy='21.5' r='3.4' fill='%2317A862'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--g:#17A862;--gd:#0E3B2E;--gs:#EAF7F0;--am:#FFB020;--bg:#F6F8F7;--tx:#1B2B26;--mu:#6B7C75;--ln:#E1E8E4;--er:#C62828}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:3px solid var(--am);outline-offset:2px}
+.side{background:linear-gradient(150deg,var(--gd),#127a49);color:#fff;padding:44px 48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.side::after{content:"";position:absolute;right:-90px;bottom:-90px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.07)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:24px;text-decoration:none;color:#fff}
+.logo svg{width:42px;height:42px}
+.side h1{font-size:clamp(28px,3.4vw,42px);font-weight:800;line-height:1.15;max-width:420px}
+.side p{margin-top:12px;opacity:.85;max-width:380px}
+.pts{display:grid;gap:10px;font-size:14px;position:relative;z-index:1}
+.pts span{display:flex;gap:10px;align-items:center}
+.pts b{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:13px}
+.wrap{display:grid;place-items:center;padding:32px 20px}
+.card{width:min(420px,100%);background:#fff;border-radius:22px;padding:28px;box-shadow:0 14px 40px rgba(14,59,46,.12);border:1px solid var(--ln)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--gs);border-radius:12px;padding:4px;margin-bottom:22px}
+.tabs button{padding:10px;border-radius:9px;font-weight:600;color:var(--mu)}
+.tabs button[aria-selected=true]{background:#fff;color:var(--gd);box-shadow:0 2px 8px rgba(14,59,46,.1)}
+h2{font-size:22px}
+.sub{color:var(--mu);font-size:14px;margin:4px 0 18px}
+form{display:grid;gap:14px}
+label{display:grid;gap:6px;font-size:14px;font-weight:600}
+.f{display:flex;align-items:center;border:1.5px solid var(--ln);border-radius:12px;background:#fff}
+.f:focus-within{border-color:var(--g)}
+.f input{flex:1;border:0;outline:0;padding:13px 14px;font:inherit;font-weight:400;min-width:0;background:none}
+.f button{padding:0 14px;font-size:13px;color:var(--g);font-weight:600}
+.go{background:var(--g);color:#fff;font-weight:600;padding:14px;border-radius:12px;margin-top:4px}
+.go:hover{background:#0f9453}
+.msg{font-size:13px;min-height:18px;color:var(--er)}
+.msg.ok{color:var(--g)}
+.skip{display:block;text-align:center;margin-top:16px;font-size:14px;color:var(--mu);text-decoration:none}
+.skip:hover{color:var(--g)}
+[hidden]{display:none!important}
+@media(max-width:820px){body{grid-template-columns:1fr}.side{padding:24px;gap:20px}.pts{display:none}.side h1{font-size:26px}}
+</style>
+</head>
+<body>
+<aside class="side">
+  <a class="logo" href="index.html"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#fff"/><path d="M10 19.5 20 11l10 8.5V30a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1z" fill="#17A862"/><circle cx="20" cy="21.5" r="3.4" fill="#fff"/><circle cx="20" cy="21.5" r="1.3" fill="#17A862"/></svg>Singgah</a>
+  <div>
+    <h1>Masuk untuk menyimpan kos favoritmu</h1>
+    <p>Satu akun untuk membandingkan kos, menyimpan pilihan, dan menghubungi pemilik.</p>
+  </div>
+  <div class="pts">
+    <span><b>✓</b>Kos terdekat dari lokasimu</span>
+    <span><b>✓</b>Favorit tersimpan di perangkatmu</span>
+    <span><b>✓</b>Chat pemilik lewat WhatsApp</span>
+  </div>
+</aside>
+
+<main class="wrap"><div class="card">
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tm" aria-selected="true">Masuk</button>
+    <button role="tab" id="td" aria-selected="false">Daftar</button>
+  </div>
+  <h2 id="jud">Selamat datang kembali</h2>
+  <p class="sub" id="sub">Masuk dengan email dan kata sandimu.</p>
+  <form id="fm" novalidate>
+    <label id="lNama" hidden>Nama lengkap<span class="f"><input id="nama" autocomplete="name" placeholder="Contoh: Rina Putri"></span></label>
+    <label>Email<span class="f"><input id="email" type="email" autocomplete="email" placeholder="nama@email.com"></span></label>
+    <label>Kata sandi<span class="f"><input id="pw" type="password" autocomplete="current-password" placeholder="Minimal 6 karakter"><button type="button" id="eye" aria-label="Tampilkan kata sandi">Lihat</button></span></label>
+    <label id="lPw2" hidden>Ulangi kata sandi<span class="f"><input id="pw2" type="password" autocomplete="new-password" placeholder="Ketik ulang kata sandi"></span></label>
+    <div class="msg" id="msg" role="alert"></div>
+    <button class="go" id="go" type="submit">Masuk</button>
+  </form>
+  <a class="skip" href="index.html">Lanjut tanpa masuk</a>
+</div></main>
+
+<script>
+const $=s=>document.querySelector(s);
+let mode="masuk";
+const KU="singgah-users",KS="singgah-user";
+const get=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const put=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}};
+async function hash(t){
+  if(!(window.crypto&&crypto.subtle))return t;
+  const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+function setMode(m){
+  mode=m;const d=m==="daftar";
+  $("#tm").setAttribute("aria-selected",!d);$("#td").setAttribute("aria-selected",d);
+  $("#lNama").hidden=!d;$("#lPw2").hidden=!d;
+  $("#jud").textContent=d?"Buat akun baru":"Selamat datang kembali";
+  $("#sub").textContent=d?"Daftar gratis, cukup satu menit.":"Masuk dengan email dan kata sandimu.";
+  $("#go").textContent=d?"Daftar":"Masuk";
+  $("#pw").autocomplete=d?"new-password":"current-password";
+  $("#msg").textContent="";$("#msg").className="msg";
+}
+$("#tm").onclick=()=>setMode("masuk");
+$("#td").onclick=()=>setMode("daftar");
+$("#eye").onclick=()=>{
+  const p=$("#pw"),s=p.type==="password";
+  p.type=s?"text":"password";$("#eye").textContent=s?"Sembunyikan":"Lihat";
+  $("#eye").setAttribute("aria-label",s?"Sembunyikan kata sandi":"Tampilkan kata sandi");
+};
+function say(t,ok){$("#msg").textContent=t;$("#msg").className="msg"+(ok?" ok":"")}
+$("#fm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const email=$("#email").value.trim().toLowerCase(),pw=$("#pw").value;
+  if(!/^\S+@\S+\.\S+$/.test(email))return say("Format email belum benar. Contoh: nama@email.com");
+  if(pw.length<6)return say("Kata sandi minimal 6 karakter.");
+  const users=get(KU)||[];
+  if(mode==="daftar"){
+    const nama=$("#nama").value.trim();
+    if(nama.length<2)return say("Isi nama lengkapmu.");
+    if(pw!==$("#pw2").value)return say("Kata sandi dan ulangannya belum sama.");
+    if(users.some(u=>u.email===email))return say("Email ini sudah terdaftar. Silakan masuk.");
+    users.push({nama,email,pw:await hash(pw)});
+    if(!put(KU,users))return say("Penyimpanan browser tidak tersedia. Coba buka lewat Live Server.");
+    put(KS,{nama,email});say("Akun berhasil dibuat. Mengalihkan…",true);
+  }else{
+    const u=users.find(x=>x.email===email);
+    if(!u)return say("Email belum terdaftar. Buka tab Daftar untuk membuat akun.");
+    if(u.pw!==await hash(pw))return say("Kata sandi salah. Coba lagi.");
+    put(KS,{nama:u.nama,email:u.email});say("Berhasil masuk. Mengalihkan…",true);
+  }
+  setTimeout(()=>location.href="index.html",700);
+});
+if(get(KS))location.replace("index.html");
+</script>
+</body>
+</html>
